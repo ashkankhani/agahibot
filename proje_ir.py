@@ -318,17 +318,16 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 
 TEXT,ID , PAY = range(3)
 Call_TEXT = 0
-API_KEY = '994f728b-1419-483d-826a-cb37add44225' #owner
+API_KEY = '27516196-8a33-42d9-b772-1627e4911e13' #owner
 #API_KEY = '8d201dc9-d461-48a7-b704-de6d5212cfa1' #me
-TOKEN = '1900532098:AAFjiF-7_QADOUfVC_2KVRTDSYuPcCiuL98'
+TOKEN = '1987569439:AAFs4RIyLdVUepKbi9AMZTEfcEDHGhOpkEg'
 CHARACTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
-BOT_ID = 'studentprojectubot'
-CHANNLE_ID = -1001333585116
-ADMIN_ID = 524975102
+BOT_ID = 'proje_ir_bot'
+CHANNLE_ID = -1001501782672
+ADMIN_ID = 1813603362
 BOT_MAKER = 800882871
 
 updater = Updater(TOKEN)
-
 
 
 def join_checker(user_id):
