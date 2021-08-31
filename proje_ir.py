@@ -29,10 +29,9 @@ TOKEN = '1987569439:AAFs4RIyLdVUepKbi9AMZTEfcEDHGhOpkEg'
 CHARACTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
 BOT_ID = 'proje_ir_bot'
 CHANNLE_ID = -1001501782672
-#ADMIN_ID = 1813603362
-ADMIN_ID = 800882871
+ADMIN_ID = 1813603362
+#ADMIN_ID = 800882871
 BOT_MAKER = 800882871
-
 updater = Updater(TOKEN)
 
 
@@ -474,8 +473,7 @@ def change_to_finished(update : Update,context : CallbackContext):
     text = (query.message.text).replace('آگهی شما با موفقیت در کانال ثبت شد.','')
     text = text.replace('متن آگهی :' , '').strip()
     setare = '\n'+ 26 * ('*') + '\n@proje_ir'
-    finishd_ad_text = re.sub(r'[\u263a-\U0001F194].*\n.*\n.*\n.*\n.*\n.*','واگذار شد✅'+setare,text)
-    print(finishd_ad_text)
+    finishd_ad_text = re.sub(r'[\u263a-\U0001F194].*(\n.*)*','واگذار شد✅'+setare,text)
     context.bot.editMessageText(text = finishd_ad_text , chat_id = CHANNLE_ID,message_id = channle_message_id,reply_markup = inline_keyboard_markup)
     query.edit_message_text(text='آگهی شما به حالت واگذار شده تغییر پیدا کرد')
     
@@ -513,7 +511,7 @@ def pay_check(update : Update,context : CallbackContext):
     order_id = query.data
     trans_id , price = get_trans_id_price(order_id)
     try:
-        if(user_id == ADMIN_ID or get_pay_result(trans_id,price)):
+        if(user_id == ADMIN_ID or user_id == BOT_MAKER or get_pay_result(trans_id,price)):
             #age pardakht shode bood
             database_status_update(order_id,'پرداخت بانکی')
             #text , call ??

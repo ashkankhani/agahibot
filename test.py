@@ -12,7 +12,8 @@ text  = '''آگهی شما با موفقیت در کانال ثبت شد.
 ‌
 پس از به توافق رسیدن با انجام دهنده شما میتوانید از طریق دکمه زیر ( واگذار شد) اطلاع دهید تا آیدی شما برداشته شود.'''
 text = (text).replace('آگهی شما با موفقیت در کانال ثبت شد.','').strip()
+text = text.replace('متن آگهی :' , '').strip()
 setare = '\n'+ 26 * ('*') + '\n@proje_ir'
-finishd_ad_text = re.sub(r'[\u263a-\U0001F194].*\n.*\n.*\n.*\n.*\n.*','واگذار شد✅'+setare,text)
+finishd_ad_text = re.sub(r'[\u263a-\U0001F194].*(\n.*)*','واگذار شد✅'+setare,text)
 print(finishd_ad_text)
 
