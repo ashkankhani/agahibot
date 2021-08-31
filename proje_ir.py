@@ -14,302 +14,7 @@ from telegram.ext import (
     CallbackContext,
     CallbackQueryHandler
 )   
-Swears = [
-        "کیر",
-        "حرامزاده",
-        "آشغال",
-        "آلت تناسلی",
-        "آلت",
-        "ابله",
-        "ابن یزید",
-        "احمق",
-        "اسکل",
-        "اسکل",
-        "اسگل",
-        "اسگول",
-        "الاغ",
-        "الاق",
-        "انگل",
-        "اوسکل",
-        "اوسکل",
-        "اوسگل",
-        "اوصکل",
-        "اوصگل",
-        "ب ک",
-        "باسن",
-        "بخورش",
-        "بدبخت",
-        "بمال",
-        "تخمم",
-        "کیرم",
-        "بپرروش",
-        "بپرسرش",
-        "کونی",
-        "بکارت",
-        "بکن توش",
-        "بکنش",
-        "بکنمت",
-        "خایه",
-        "بی عفت",
-        "بی غیرت",
-        "بی ناموس",
-        "بی پدر",
-        "بیابخورش",
-        "بیشعور",
-        "بیناموس",
-        "تخم سگ",
-        "تخمی",
-        "توله سگ",
-        "جاکش",
-        "جلق زدن",
-        "جنده",
-        "جنسی",
-        "جوون",
-        "جکس",
-        "جیندا",
-        "حرومزاده",
-        "حشر",
-        "حشری شدن",
-        "حشری",
-        "حیوانی",
-        "خارکس ده",
-        "خارکسده",
-        "خارکسّه",
-        "خانم جنده",
-        "خایه خور",
-        "خایه مال",
-        "خایه",
-        "خر",
-        "خرفت",
-        "خری",
-        "خز",
-        "خفه خون",
-        "خفه شو",
-        "خواهرجنده",
-        "خی کاس",
-        "داف ناز",
-        "داف",
-        "داگ استایل",
-        "دخترجنده",
-        "دخترقرتی",
-        "درازگوش",
-        "دله",
-        "دهن سرویس",
-        "گاییده",
-        "دهنت سرویس",
-        "دوجنسه",
-        "دول",
-        "دیوث",
-        "دیوس خان",
-        "دیوس",
-        "دیوص",
-        "رشتی",
-        "ریدن",
-        "ریدی",
-        "زارت",
-        "زباله",
-        "زرنزن",
-        "زن جنده",
-        "زن کاسده",
-        "زنا زاده",
-        "زنا",
-        "زنازاده",
-        "زنتو",
-        "زنشو",
-        "زنیکه",
-        "سادیسمی",
-        "ساک",
-        "ساکونی",
-        "سرخور",
-        "سرکیر",
-        "سسکی",
-        "سوراخ کون",
-        "سوراخ کون",
-        "سولاخ",
-        "سکس چت",
-        "سکس",
-        "سکسی باش",
-        "سکسی",
-        "سکسیم",
-        "سکسیی",
-        "سگ تو روحت",
-        "سگ دهن",
-        "سگ صفت",
-        "سگ پدر",
-        "سگی",
-        "سیکتیر",
-        "شاسگول",
-        "شاش",
-        "شق کردن",
-        "شل مغز",
-        "شنگول",
-        "شهوتی",
-        "صیغه ای",
-        "صیک",
-        "عرق خور",
-        "عمتو",
-        "عمه ننه",
-        "عن تر",
-        "عن",
-        "عنتر",
-        "عوضی",
-        "غرمساق",
-        "غرمصاق",
-        "فاحشه خانم",
-        "فاحشه",
-        "فاک فیس",
-        "فیلم سوپر",
-        "قرتی",
-        "قرمساق",
-        "قرمصاق",
-        "قس",
-        "لا پا",
-        "لاس",
-        "لاش گوشت",
-        "لاشی",
-        "لاکونی",
-        "لجن",
-        "لخت",
-        "لختی",
-        "لز",
-        "مادر جنده",
-        "مادرجنده",
-        "مادرسگ",
-        "مادرقهوه",
-        "مادرکونی",
-        "مالوندن",
-        "ماچ کردنی",
-        "مرتیکه",
-        "مردیکه",
-        "مرض داری",
-        "مرضداری",
-        "مشروب",
-        "ملنگ",
-        "ممه خور",
-        "ممه",
-        "منگل",
-        "میخوریش",
-        "نرکده",
-        "نعشه",
-        "نکبت",
-        "نگاییدم",
-        "هیز",
-        "ولدزنا",
-        "پدر سوخته",
-        "پدر سگ",
-        "پدر صلواتی",
-        "پدرسگ",
-        "پریود",
-        "پستان",
-        "پسون",
-        "پشمام",
-        "پفیوز",
-        "پلشت",
-        "پورن",
-        "پپه",
-        "چاغال",
-        "چاقال",
-        "چس خور",
-        "چس",
-        "کاسکش",
-        "کث لیس",
-        "کث",
-        "کثافت",
-        "کثافط",
-        "کردنی",
-        "کرم",
-        "کس خل",
-        "کس خور",
-        "کس خیس",
-        "کس دادن",
-        "کس لیس",
-        "کس لیسیدن",
-        "کس ننت",
-        "کس و کیر",
-        "کس کردن",
-        "کس کش",
-        "کس",
-        "کسخل",
-        "کسشعر",
-        "کسکش",
-        "کسکیر",
-        "کص خل",
-        "کص لیس",
-        "کص",
-        "کصافت",
-        "کصافط",
-        "کصخل",
-        "کصکش",
-        "کلفت",
-        "کله کیری",
-        "کوث لیس",
-        "کوس خل",
-        "کوس خور",
-        "کوس لیس",
-        "کوس",
-        "کوص خل",
-        "کوص لیس",
-        "کوص",
-        "کون تپل",
-        "کون ده",
-        "کون سوراخ",
-        "کون پنیر",
-        "کون گنده",
-        "کون",
-        "کونده خار",
-        "کونده خوار",
-        "کونده",
-        "کونشو",
-        "کونی",
-        "کونی",
-        "کیر",
-        "کیردراز",
-        "کیردوس",
-        "کیرر",
-        "کیرمکیدن",
-        "کیرناز",
-        "کیروکس",
-        "کیروکس",
-        "کیری",
-        "گاو",
-        "گاوی",
-        "گاگول",
-        "گایدن",
-        "گایدی",
-        "گاییدن",
-        "گردن دراز",
-        "گشاد",
-        "گوز",
-        "گوزو",
-        "گوزو",
-        "گوسفند",
-        "گوش دراز",
-        "گوه",
-        "گوه",
-        "گی زن",
-        "گیخوار",
-        "یبن زنا",
-        "مادرتو",
-        "ناموستو",
-        "چنده",
-        "باسنی",
-        "سیکیم",
-        "سگ ناموس",
-        "نوب",
-        "خایمال",
-        "مادر به خطا",
-        "کصلیس",
-        "بکنت",
-        "کصده",
-        "گورومساخ",
-        "پوفیوز",
-        "پدرتو",
-        "قورومساق",
-        "سیهدیر",
-        "اوبی",
-        "مادر سگ",
-        "نگایدم"
-    ]
+
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                      level=logging.INFO)
@@ -324,7 +29,8 @@ TOKEN = '1987569439:AAFs4RIyLdVUepKbi9AMZTEfcEDHGhOpkEg'
 CHARACTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
 BOT_ID = 'proje_ir_bot'
 CHANNLE_ID = -1001501782672
-ADMIN_ID = 1813603362
+#ADMIN_ID = 1813603362
+ADMIN_ID = 800882871
 BOT_MAKER = 800882871
 
 updater = Updater(TOKEN)
@@ -348,7 +54,7 @@ def i_am_joined(update:Update , context:CallbackContext):
     
 
 def list_of_ads(user_id):
-    connection = sqlite3.connect('studentproject.db')
+    connection = sqlite3.connect('proje_ir.db')
     cursor = connection.cursor()
     cursor.execute(f'''select status,ad_text , ad_call
     from customers
@@ -376,15 +82,15 @@ def send_ad_list(update:Update,context:CallbackContext):
 
 
 def auto_back_up(context : CallbackContext):
-    context.bot.send_document(chat_id = BOT_MAKER , document = open('studentproject.db', 'rb') , filename = 'studentproject.db')
+    context.bot.send_document(chat_id = BOT_MAKER , document = open('proje_ir.db', 'rb') , filename = 'proje_ir.db')
 
 def manual_back_up(update:Update , context:CallbackContext):
-    context.bot.send_document(chat_id = BOT_MAKER , document = open('studentproject.db', 'rb') , filename = 'studentproject.db')
+    context.bot.send_document(chat_id = BOT_MAKER , document = open('proje_ir.db', 'rb') , filename = 'proje_ir.db')
     
 
 def set_price(update : Update,context : CallbackContext):
     price = update.message.reply_to_message.text
-    connection = sqlite3.connect('studentproject.db')
+    connection = sqlite3.connect('proje_ir.db')
     cursor = connection.cursor()
     cursor.execute(f'''update settings
     set price = {price}
@@ -397,7 +103,7 @@ def set_price(update : Update,context : CallbackContext):
 
 def get_trans_id(order_id,price): #bara tolide
     url = "https://nextpay.org/nx/gateway/token"
-    payload=f'api_key={API_KEY}&amount={price}&order_id={order_id}&callback_uri=https://t.me/studentprojectubot'
+    payload=f'api_key={API_KEY}&amount={price}&order_id={order_id}&callback_uri=https://t.me/{BOT_ID}'
     headers = {
     'User-Agent': 'PostmanRuntime/7.26.8',
     'Content-Type': 'application/x-www-form-urlencoded'
@@ -410,7 +116,7 @@ def get_trans_id(order_id,price): #bara tolide
 
 
 def database_max_id():
-    connection = sqlite3.connect('studentproject.db')
+    connection = sqlite3.connect('proje_ir.db')
     cursor = connection.cursor()
     cursor.execute('''select max(id)
     from customers
@@ -422,7 +128,7 @@ def database_max_id():
     return ad_count + 1
 
 def last_user_ad_id(user_id):
-    connection = sqlite3.connect('studentproject.db')
+    connection = sqlite3.connect('proje_ir.db')
     cursor = connection.cursor()
     cursor.execute(f'''select max(id)
     from customers
@@ -434,7 +140,7 @@ def last_user_ad_id(user_id):
 
 def database_get_code_text(user_id):
     id = last_user_ad_id(user_id)
-    connection = sqlite3.connect('studentproject.db')
+    connection = sqlite3.connect('proje_ir.db')
     cursor = connection.cursor()
     cursor.execute(f'''select order_id,ad_text
     from customers
@@ -448,7 +154,7 @@ def database_get_code_text(user_id):
 
 
 def database_first_insert(user_id):
-    connection = sqlite3.connect('studentproject.db')
+    connection = sqlite3.connect('proje_ir.db')
     cursor = connection.cursor()
     cursor.execute(f'''insert into customers
     (id , user_id)
@@ -461,7 +167,7 @@ def database_first_insert(user_id):
 
 def database_text_update(user_id,text):
     id = last_user_ad_id(user_id)
-    connection = sqlite3.connect('studentproject.db')
+    connection = sqlite3.connect('proje_ir.db')
     cursor = connection.cursor()
     cursor.execute(f'''update customers
     set ad_text = '{text}'
@@ -475,7 +181,7 @@ def order_id_maker():
     return order_id
 
 def get_current_price():
-    connection = sqlite3.connect('studentproject.db')
+    connection = sqlite3.connect('proje_ir.db')
     cursor = connection.cursor()
     cursor.execute('''select price
 from settings
@@ -490,7 +196,7 @@ def database_call_price_order_trans_update(user_id,call):
     order_id = order_id_maker()
     price = get_current_price()
     trans_id = get_trans_id(order_id , price)
-    connection = sqlite3.connect('studentproject.db')
+    connection = sqlite3.connect('proje_ir.db')
     cursor = connection.cursor()
     cursor.execute(f'''update customers
     set ad_call = '{call}' , order_id = '{order_id}', price = {price},trans_id = '{trans_id}',success = 1
@@ -501,7 +207,7 @@ def database_call_price_order_trans_update(user_id,call):
 
 
 def user_in_db(user_id):
-    connection = sqlite3.connect('studentproject.db')
+    connection = sqlite3.connect('proje_ir.db')
     cursor = connection.cursor()
     cursor.execute(f'''select id 
     from users
@@ -515,7 +221,7 @@ def user_in_db(user_id):
         return False
 
 def add_user_to_db(user_id , fname , lname , inviter):
-    connection = sqlite3.connect('studentproject.db')
+    connection = sqlite3.connect('proje_ir.db')
     cursor = connection.cursor()
     cursor.execute(f'''select count(id)
     from users
@@ -550,7 +256,7 @@ def menu_asli(chat_id):
 3️⃣ درج آگهی امتحان، پایان نامه، پروپوزال ممنوع است و درصورت درج توسط پشتیبانی حذف می‌گردد⛔️
 
 4️⃣ برای درج آگهی توانایی های خود، آگهی استخدامی یا انجام پروژه توسط تیم پروژه دانشجویی به پشتیبانی پیام دهید.
-@admiinproject
+@mrtzanvidi
 
 ❌ در صورتی که آگهی تون قوانین ذکر شده رو رعایت نکرده باشه آگهی از کانال پاک میشه  و هیچ مسولیتی در قبال وجه پرداختی شما نیست ❌
 ''',chat_id = chat_id,reply_markup = reply_keyboard_markup)
@@ -581,7 +287,7 @@ def agahi_text(update : Update,context : CallbackContext):
     update.message.reply_text('''حالا لطفا آیدی یا شماره تماسی که میخای برای آگهیت درج بشه رو بفرست
 
 مثال یک: 
-@admiinproject
+@mrtzanvidi
 مثال دو: 09120000000
 ''',reply_markup = reply_keyboard_markup)
 
@@ -613,7 +319,7 @@ def make_full_ad(text,call):
 
 🆔 {call}
 **************************
-@studentprojectu
+@proje_ir
 ''' 
     return full_ad
 
@@ -679,7 +385,7 @@ def get_pay_result(trans_id,price):
 
 
 def get_trans_id_price(order_id): #kharej kardan az database
-    connection = sqlite3.connect('studentproject.db')
+    connection = sqlite3.connect('proje_ir.db')
     cursor = connection.execute(f'''select trans_id , price
     from customers
     where order_id = '{order_id}'
@@ -690,7 +396,7 @@ def get_trans_id_price(order_id): #kharej kardan az database
 
 
 def database_status_update(order_id,status):
-    connection = sqlite3.connect('studentproject.db')
+    connection = sqlite3.connect('proje_ir.db')
     cursor = connection.cursor()
     cursor.execute(f'''update customers
     set status = '{status}'
@@ -700,7 +406,7 @@ def database_status_update(order_id,status):
     connection.close()
 
 def database_submit_channle(order_id):
-    connection = sqlite3.connect('studentproject.db')
+    connection = sqlite3.connect('proje_ir.db')
     cursor = connection.cursor()
     cursor.execute(f'''update customers
     set channle_submit = 1
@@ -736,7 +442,7 @@ def sumbit_to_channle(full_ad,context : CallbackContext):
     
 
 def paid_ad_text_call(order_id):
-    connection = sqlite3.connect('studentproject.db')
+    connection = sqlite3.connect('proje_ir.db')
     cursor = connection.cursor()
     cursor.execute(f'''select ad_text , ad_call
     from customers
@@ -748,7 +454,7 @@ def paid_ad_text_call(order_id):
 
 
 def is_not_submited(order_id):
-    connection = sqlite3.connect('studentproject.db')
+    connection = sqlite3.connect('proje_ir.db')
     cursor = connection.cursor()
     cursor.execute(f'''select channle_submit
     from customers
@@ -767,8 +473,9 @@ def change_to_finished(update : Update,context : CallbackContext):
     channle_message_id = (query.data)[1:]
     text = (query.message.text).replace('آگهی شما با موفقیت در کانال ثبت شد.','')
     text = text.replace('متن آگهی :' , '').strip()
-    setare = '\n'+ 26 * ('*') + '\n@studentprojectu'
-    finishd_ad_text = re.sub(r'(.*)\n\*{26}\n.*\n\n.*\n.*\n\n.*\.*\n.*\n.*','واگذار شد✅'+setare,text)
+    setare = '\n'+ 26 * ('*') + '\n@proje_ir'
+    finishd_ad_text = re.sub(r'[\u263a-\U0001F194].*\n.*\n.*\n.*\n.*\n.*','واگذار شد✅'+setare,text)
+    print(finishd_ad_text)
     context.bot.editMessageText(text = finishd_ad_text , chat_id = CHANNLE_ID,message_id = channle_message_id,reply_markup = inline_keyboard_markup)
     query.edit_message_text(text='آگهی شما به حالت واگذار شده تغییر پیدا کرد')
     
@@ -776,7 +483,7 @@ def change_to_finished(update : Update,context : CallbackContext):
     
 
 def coin_calcu(user_id , calcu):
-    connection = sqlite3.connect('studentproject.db')
+    connection = sqlite3.connect('proje_ir.db')
     cursor = connection.cursor()
     cursor.execute(f'''update users
     set coins = coins {calcu}
@@ -786,7 +493,7 @@ def coin_calcu(user_id , calcu):
     connection.close()
 
 def user_ad_counter_inviter(user_id):
-    connection = sqlite3.connect('studentproject.db')
+    connection = sqlite3.connect('proje_ir.db')
     cursor = connection.cursor()
     cursor.execute(f'''select ad_count,inviter
     from users
@@ -823,10 +530,6 @@ def pay_check(update : Update,context : CallbackContext):
 {full_ad}
 ‌
 پس از به توافق رسیدن با انجام دهنده شما میتوانید از طریق دکمه زیر ( واگذار شد) اطلاع دهید تا آیدی شما برداشته شود.
-
-❌توجه❌
-برای جلوگیری از کلاه برداری حتما کانال زیر بخون تا کلا سرت نره .
-@studentprojectuSecurity
 ''',reply_markup=inline_keyboard_markup)
                 database_submit_channle(order_id)
                 ad_count , inviter = user_ad_counter_inviter(user_id)
@@ -863,7 +566,7 @@ def call_text(update : Update,context : CallbackContext):
     return ConversationHandler.END
 
 def coin_counter(user_id):
-    connection = sqlite3.connect('studentproject.db')
+    connection = sqlite3.connect('proje_ir.db')
     cursor = connection.cursor()
     cursor.execute(f'''select coins
     from users
@@ -906,10 +609,6 @@ def pay_with_coin(update : Update,context : CallbackContext):
 {full_ad}
 ‌
 پس از به توافق رسیدن با انجام دهنده شما میتوانید از طریق دکمه زیر ( واگذار شد) اطلاع دهید تا آیدی شما برداشته شود.
-
-❌توجه❌
-برای جلوگیری از کلاه برداری حتما کانال زیر بخون تا کلا سرت نره .
-@studentprojectuSecurity
 ''',reply_markup=inline_keyboard_markup)
             database_submit_channle(order_id)
             ad_count , inviter = user_ad_counter_inviter(user_id)
@@ -926,7 +625,7 @@ def pay_with_coin(update : Update,context : CallbackContext):
 
 
 def user_ad_calcu(user_id):
-    connection = sqlite3.connect('studentproject.db')
+    connection = sqlite3.connect('proje_ir.db')
     cursor = connection.cursor()
     cursor.execute(f'''update users
     set ad_count = ad_count + 1
@@ -947,10 +646,12 @@ def create_invite_link(update:Update , context:CallbackContext):
     update.message.reply_text(text = f'''سلام 🌹 
  اگر به دنبال واگذاری پروژه های درسی و کاری خودت به دیگران هستی یا اینکه میخوای از طریق کارای پروژه ای کسب درآمد کنی کانال پروژه دانشجویی رو دنبال کن 
 👇👇 
- t.me/studentprojectubot?start={user_id}
+ t.me/{BOT_ID}?start={user_id}
 ''')
 
     
+
+
 
 
 def main():
@@ -968,7 +669,7 @@ def main():
             getchatmember = updater.bot.getChatMember(chat_id = CHANNLE_ID , user_id = user_id).status
             if(getchatmember == 'left'):
                 inline_keyboard_button = [
-                    [InlineKeyboardButton(text = 'عضويت در چنل📢',url='https://t.me/studentprojectu') , InlineKeyboardButton(text = 'عضو شدم✅',callback_data=f'+{user_id}')]
+                    [InlineKeyboardButton(text = 'عضويت در چنل📢',url='https://t.me/proje_ir') , InlineKeyboardButton(text = 'عضو شدم✅',callback_data=f'+{user_id}')]
                 ]
                 inline_keyboard_markup = InlineKeyboardMarkup(inline_keyboard=inline_keyboard_button)
                 update.message.reply_text('برای استفاده از ربات اول باید تو کانال جوین بشی 🌹' , reply_markup=inline_keyboard_markup)
@@ -984,18 +685,10 @@ def main():
 
     class is_swear(UpdateFilter):
         def filter(self , update:Update):
-            global Swears
-            bad_word = False
+            
             message_text = update.message.text
-            for swear in Swears:
-                if(re.search(pattern=f".*\s{swear}\s.*",string=message_text)):
-                    bad_word = True
-                    break
-
-            if(bad_word):
-                update.message.reply_text(f'''آگهی شما دارای کلمات ممنوعه است
-کلمه ممنوعه ای که در متن شما وجود داشت : {swear}
-                ''')
+            if(re.search(r'(.*\u062f\u0631\u0648\u0633\s.*|.*\u062f\u0631.*\u062e\u062f\u0645\u062a\u0645|.*\u0628\u0633\u067e\u0627\u0631\u06cc\u062f.*|.*\u067e\u0630\u06cc\u0631\u0641\u062a\u0647\s.*|.*\u062e\u062f\u0645\u062a.*|.*\u0633\u0641\u0627\u0631\u0634.*|.*\u0628\u0647\u062a\u0631\u06cc\u0646.*|.*\u06a9\u06cc\u0641\u06cc\u062a.*|.*\u0645\u0646\u0627\u0633\u0628.*|.*\u06a9\u0645\u062a\u0631\u06cc\u0646.*|.*\u0645\u0698\u062f\u0647.*|.*\u0645\u0633\u0644\u0637\u0645.*|.*\u062a\u0636\u0645\u06cc\u0646.*|.*\u062e\u0648\u0627\u0633\u062a\s.*|.*\u0645\u0642\u0627\u0637\u0639.*|.*\u0633\u0627\u062e\u062a.*|.*\u0647\u0631\s*\u06af\u0648\u0646\u0647.*|.*\u062d\u0631\u0641\u0647.*|\s\u0645\u06cc\u062f\u0645.*|.*\u0627\u0633\u062a\u062e\u062f\u0627\u0645.*|.*\u0645\u0634\u0627\u0648\u0631\u0647.*|.*\u0647\u0645\u0627\u0647\u0646\u06af.*|.*\u0628\u0627\s\u0633\u0644\u0627\u0645.*|.*\u0646\u0645\u0648\u0646\u0647\s\u06a9\u0627\u0631.*|.*\u0631\u0636\u0627\u06cc\u062a.*|.*\u0645\u0633\u0644\u0637.*\u0647\u0633\u062a\u0645.*|.*\u062a\u0648\u0633\u0637.*|.*\u06a9\u0644\u06cc\u0647\s.*|.*\u0631\u0632\u0631\u0648.*|.*\u062a\u0645\u0627\u0645\u06cc\s.*|.*\u0631\u0632\u0648\u0645\u0647\s.*|.*\u0628\u0631\u062a\u0631\u06cc\u0646.*|\u0627\u0646\u062c\u0627\u0645\s\u0645\u06cc\u0634\w{1,2}.*|.*\u0627\u0633\u062a\u0627\u062f.*|.*\u0628\u0631\u062c\u0633\u062a\u0647.*|.*\u062a\u062f\u0631\u06cc\u0633.*|.*\u062f\u0627\u0646\u0634\u062c\u0648\u06cc\u06cc.*|[😐🤣😂✅⚠️❗️‼️⁉️❓💢⭕️⛔️📛❌💯🔴🟠🟡🟢🔵⚫️⚪️🟤🟥🟧🟩🟦🟪⬛️⬜️🟫👇☝️👆👇🏻☝️👆😉👌⚜️🔱📣🌸]|.*\u062f\u0631[\u0627\u0622]\u0645\u062f.*|.*\u0645\u0646\u0632\u0644.*|.*\u0645\u0631\u0627\u062c\u0639\u0647.*|.*\u062e\u062f\u0645\u062a.*|.*\u0627\u0646\u062c\u0627\u0645.*|.*\u0627\u0646\u0648\u0627\u0639\s.*)',message_text)):
+                update.message.reply_text('آگهی شما دارای کلمات ممنوعه است')
                 return True
             return False
 
