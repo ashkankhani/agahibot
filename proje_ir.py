@@ -459,17 +459,32 @@ def ad_is_finished(full_ad , ad_message_id,user_id,context : CallbackContext):
 ''' , reply_markup = inline_keyboard_markup)
 
 
+def delete_ad(ad_id):
+    updater.bot.delete_message(chat_id = CHANNLE_ID , message_id = ad_id)
+
+
+
 def ad_delete_manager(update : Update , context : CallbackContext):
     query = update.callback_query
     query_data = query.data[1:].split(',')
     ad_message_id,user_id = query_data
     print(ad_message_id,user_id)
+    try:
+        delete_ad(ad_message_id)
+    except:
+        query.answer('خطایی در حذف پیام از کانال روی داد!')   
+    else:
+        query.edit_message_text('آگهی با موفقیت با کانال حذف شد!')
+
+        
+
+
     
 
 
 def ad_manager(full_ad , ad_message_id , user_id):
     inline_keyboard_button = [
-        InlineKeyboardButton(text = 'حذف این آگهی' , callback_data=f'!{ad_message_id},{user_id}')
+        [InlineKeyboardButton(text = 'حذف این آگهی' , callback_data=f'!{ad_message_id},{user_id}')],
     ]
     inline_keyboard_markup = InlineKeyboardMarkup(inline_keyboard=inline_keyboard_button , one_time_keyboard=True)
     updater.bot.send_message(chat_id = ADMIN_ID , text = full_ad , reply_markup = inline_keyboard_markup)
@@ -577,11 +592,11 @@ def pay_check(update : Update,context : CallbackContext):
 ‌
 پس از به توافق رسیدن با انجام دهنده شما میتوانید از طریق دکمه زیر ( واگذار شد) اطلاع دهید تا آیدی شما برداشته شود.
 ''',reply_markup=inline_keyboard_markup)
-                database_submit_channle(order_id)
-                ad_count , inviter = user_ad_counter_inviter(user_id)
-                user_ad_calcu(user_id)
-                if(not ad_count and inviter):
-                    coin_calcu(inviter , '+ 1')
+            database_submit_channle(order_id)
+            ad_count , inviter = user_ad_counter_inviter(user_id)
+            user_ad_calcu(user_id)
+            if(not ad_count and inviter):
+                coin_calcu(inviter , '+ 1')
         else:
 
             context.bot.send_message(chat_id = query.message.chat.id,text = 'شما هنوز پرداخت انجام ندادید!')
