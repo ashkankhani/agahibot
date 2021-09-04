@@ -1,9 +1,11 @@
 import logging
 import re
 import sqlite3
+from sqlite3.dbapi2 import connect
+from warnings import filters
 import requests
 from random import sample
-from telegram import ReplyKeyboardMarkup, ReplyKeyboardRemove, Update,InlineKeyboardButton, InlineKeyboardMarkup,Update, user
+from telegram import ReplyKeyboardMarkup, Update,InlineKeyboardButton, InlineKeyboardMarkup,Update
 from telegram.ext import (
     UpdateFilter,
     Updater,
@@ -29,10 +31,41 @@ TOKEN = '1987569439:AAFs4RIyLdVUepKbi9AMZTEfcEDHGhOpkEg'
 CHARACTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
 BOT_ID = 'proje_ir_bot'
 CHANNLE_ID = -1001501782672
-ADMIN_ID = 1813603362
-#ADMIN_ID = 800882871
+#ADMIN_ID = 1813603362
+ADMIN_ID = 800882871
 BOT_MAKER = 800882871
 updater = Updater(TOKEN)
+
+
+
+def coin_increaser_db(user_id , count):
+    connecton = sqlite3.connect('proje_ir.db')
+    cursor = connecton.cursor()
+    cursor.execute(f'''update users
+    set coins = coins + {count}
+    where user_id = {user_id}
+    ''')
+    connecton.commit()
+    connecton.close()
+
+
+
+def coin_increaser(update : Update , context : CallbackContext):
+    if(len(context.args) != 2):
+        update.message.reply_text('دستور را به درستی وارد نکرده اید!')
+        return 0
+    user_id = context.args[0]
+    count = context.args[1]
+    try:
+        coin_increaser_db(user_id , count)
+    except:
+        update.message.reply_text('''خطایی در اجرای دستور شما رخ داد!
+این خطا ممکن است ناشی از مشکلی در دیتابیس باشد!
+مجددا تلاش کنید و یا به سازنده ربات اطلاع دهید
+''')
+    else:
+        update.message.reply_text(f'با موفقیت {count} تعداد به سکه های فرد مورد نظر افزوده شد!')
+
 
 
 def join_checker(user_id):
@@ -426,6 +459,20 @@ def ad_is_finished(full_ad , ad_message_id,user_id,context : CallbackContext):
 ''' , reply_markup = inline_keyboard_markup)
 
 
+def ad_delete_manager(update : Update , context : CallbackContext):
+    query = update.callback_query
+    query_data = query.data[1:].split(',')
+    ad_message_id,user_id = query_data
+    print(ad_message_id,user_id)
+    
+
+
+def ad_manager(full_ad , ad_message_id , user_id):
+    inline_keyboard_button = [
+        InlineKeyboardButton(text = 'حذف این آگهی' , callback_data=f'!{ad_message_id},{user_id}')
+    ]
+    inline_keyboard_markup = InlineKeyboardMarkup(inline_keyboard=inline_keyboard_button , one_time_keyboard=True)
+    updater.bot.send_message(chat_id = ADMIN_ID , text = full_ad , reply_markup = inline_keyboard_markup)
 
 def sumbit_to_channle(full_ad,context : CallbackContext):
     inline_keyboard_button =[
@@ -519,6 +566,7 @@ def pay_check(update : Update,context : CallbackContext):
             full_ad = make_full_ad(text,call)
             if(is_not_submited(order_id)):
                 ad_id = sumbit_to_channle(full_ad,context)
+                ad_manager(full_ad , ad_id , user_id)
                 inline_keyboard =[
                 [InlineKeyboardButton('واگذار کردم✅',callback_data=f'_{ad_id}')] #####درست کنش
                 ]
@@ -539,7 +587,8 @@ def pay_check(update : Update,context : CallbackContext):
             context.bot.send_message(chat_id = query.message.chat.id,text = 'شما هنوز پرداخت انجام ندادید!')
 
     except:
-        update.message.reply_text('در هنگام برسی پرداخت شما خطایی روی داده است!لطفا مجددا دکمه پرداخت کردم را کلیک کنید!')
+        context.bot.send_message(chat_id = query.message.chat.id,text = 'در هنگام برسی پرداخت شما خطایی روی داده است!لطفا مجددا دکمه پرداخت کردم را کلیک کنید!')
+
 
 
 
@@ -698,7 +747,8 @@ def main():
     backup = updater.job_queue
     backup.run_repeating(auto_back_up,interval=20 * 60)
 
-
+    ad_delete_manager_handler = CallbackQueryHandler(ad_delete_manager , pattern='^!.*$')
+    coin_add_handler = CommandHandler('coin' , coin_increaser , filters = Filters.chat(ADMIN_ID))
     back_up_handler = CommandHandler('backup' , manual_back_up,Filters.chat(ADMIN_ID) | Filters.chat(BOT_MAKER) , pass_update_queue=False)
     create_invite_link_handler = MessageHandler(callback=create_invite_link,filters = Filters.regex('دریافت سکه رایگان 💰')& isjoined)
 
@@ -737,7 +787,9 @@ def main():
         },
         fallbacks=[MessageHandler(Filters.regex('^بازگشت به منو 🏛$'), welcome)]
     )
+    dispatcher.add_handler(ad_delete_manager_handler)
     dispatcher.add_handler(i_am_joined_handler)
+    dispatcher.add_handler(coin_add_handler)
     dispatcher.add_handler(back_up_handler)
     dispatcher.add_handler(invite_handler)
     dispatcher.add_handler(welcome_handelr)
