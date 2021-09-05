@@ -1,8 +1,6 @@
 import logging
 import re
 import sqlite3
-from sqlite3.dbapi2 import connect
-from warnings import filters
 import requests
 from random import sample
 from telegram import ReplyKeyboardMarkup, Update,InlineKeyboardButton, InlineKeyboardMarkup,Update
@@ -31,8 +29,8 @@ TOKEN = '1987569439:AAFs4RIyLdVUepKbi9AMZTEfcEDHGhOpkEg'
 CHARACTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
 BOT_ID = 'proje_ir_bot'
 CHANNLE_ID = -1001501782672
-#ADMIN_ID = 1813603362
-ADMIN_ID = 800882871
+ADMIN_ID = 1813603362
+#ADMIN_ID = 800882871
 BOT_MAKER = 800882871
 updater = Updater(TOKEN)
 
@@ -255,7 +253,7 @@ def user_in_db(user_id):
 def add_user_to_db(user_id , fname , lname , inviter):
     connection = sqlite3.connect('proje_ir.db')
     cursor = connection.cursor()
-    cursor.execute(f'''select count(id)
+    cursor.execute(f'''select max(id)
     from users
     ''')
     users_count = (cursor.fetchone())[0]
@@ -464,17 +462,27 @@ def delete_ad(ad_id):
 
 
 
+def send_warning(user_id):
+    updater.bot.send_message(chat_id = user_id , text = '''آگهی شما زا سوی مدیریت حذف شده و به ازای آن,3 عدد سکه رایگان برای درج مجدد آگهی به شما تعلق گرفته است
+شما میتوانید با رعایت قوانین,مجددا به ثبت آگهی بپردازید
+''')
+
+
+
+
+
 def ad_delete_manager(update : Update , context : CallbackContext):
     query = update.callback_query
     query_data = query.data[1:].split(',')
     ad_message_id,user_id = query_data
-    print(ad_message_id,user_id)
     try:
         delete_ad(ad_message_id)
     except:
         query.answer('خطایی در حذف پیام از کانال روی داد!')   
     else:
         query.edit_message_text('آگهی با موفقیت با کانال حذف شد!')
+        coin_increaser_db(user_id , 3)
+        send_warning(user_id)
 
         
 
@@ -662,6 +670,7 @@ def pay_with_coin(update : Update,context : CallbackContext):
         full_ad = make_full_ad(text,call)
         if(is_not_submited(order_id)):
             ad_id = sumbit_to_channle(full_ad,context)
+            ad_manager(full_ad , ad_id , user_id)
             inline_keyboard =[
             [InlineKeyboardButton('واگذار کردم✅',callback_data=f'_{ad_id}')] #####درست کنش
             ]
